@@ -18,6 +18,7 @@ def testing(request):
     text = '<h1>Mental Health Care Support</h1>'
     return HttpResponse(text)
 
+@csrf_exempt  
 def signUp(request):
     numbers = ['1','2','3','4','5','6','7','8','9','0']
     numeric = False
@@ -36,29 +37,18 @@ def signUp(request):
             return render(request,'signUp.html',context={'min_words':min_words})
 
         else:
-            for letter in pass1:
-                if letter in numbers:
-                    numeric = True
+            if pass1 == pass2 :
+                createUser = User.objects.create_user(first_name=fname,last_name=lname,username=username, email=email, password=pass1)
+                createUser.first_name = fname
+                createUser.last_name = lname
+                createUser.save()
+            else :
+                noMatch = "Password doesn't match"
+                return render(request,'signUp.html',context={'noMatch':noMatch})
             
-            if numeric is not True:
-                numeric_char = "Password must contain atleast one numeric charater"
-                return render(request,'signUp.html',context={'numeric_char':numeric_char})
-            else:
-                if similar >= similarity:
-                    same_words = "Password and Username is too similar"
-                    return render(request,'signUp.html',context={'same_words':same_words})
-                else:
-                    if pass1 == pass2 :
-                        createUser = User.objects.create_user(first_name=fname,last_name=lname,username=username, email=email, password=pass1)
-                        createUser.first_name = fname
-                        createUser.last_name = lname
-                        createUser.save()
-                    else :
-                        noMatch = "Password doesn't match"
-                        return render(request,'signUp.html',context={'noMatch':noMatch})
-            
-                    success = "Your account has been created Successfully, Login Here"
-                    return redirect('/signIn')
+            success = "Your account has been created Successfully, Login Here"
+            print(success)
+            return redirect('/signIn')
     return render(request,'signUp.html')
 
 def signIn(request):

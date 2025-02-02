@@ -8,6 +8,10 @@
         {
             "src": "/(.*)",
             "dest": "mental_Health_Bot/wsgi.py"
+        },
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
         }
     ]
 }

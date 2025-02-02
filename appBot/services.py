@@ -1,10 +1,11 @@
 import google.generativeai as genai
 from dotenv import load_dotenv
+from decouple import config
 import os
 
 load_dotenv()
 
-api_key = os.getenv('api_key')
+api_key = config('api_key')
 
 genai.configure(api_key= api_key)
 
