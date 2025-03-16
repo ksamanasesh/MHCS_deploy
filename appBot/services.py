@@ -2,64 +2,63 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
+# Load environment variables
 load_dotenv()
 
-# Load API key securely
-genai.configure(api_key=os.getenv("api_key"))  # Store in .env file for security
+# Securely load API key
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("API key not found. Make sure it is set in the .env file.")
 
-# Generation configuration
+# Configure Gemini API
+genai.configure(api_key=api_key)
+
+# Generation configuration for balanced responses
 generation_config = {
-    "temperature": 0.6,  # Reduce randomness for more direct responses
+    "temperature": 0.6,  
     "top_p": 0.8,
     "top_k": 30,
-    "max_output_tokens": 50,  # Shorten responses
+    "max_output_tokens": 80,  # Increased to ensure full responses
     "response_mime_type": "text/plain",
 }
 
-# Initialize the Gemini model for Dr. Smith, the mental health care chatbot
+# Initialize the Gemini model
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
 
-# Start chat session with a meaningful conversation history
+# Start chat session with a conversational tone
 chat_session = model.start_chat(
     history=[
         {
             "role": "user",
-            "parts": ["You are Dr. Smith, a mental health care chatbot. Respond with empathy and guidance."],
+            "parts": ["You are Dr. Smith, a friendly mental health chatbot. Keep responses supportive, concise, and engaging."],
         },
         {
             "role": "model",
-            "parts": ["Hello, I am Dr. Smith, your virtual mental health assistant. How are you feeling today?"],
+            "parts": ["Hey! I'm Dr. Smith, here to chat and support you. How's your day going?"],
         },
     ]
 )
 
-# Function to check for predefined responses based on user message
+# Function to check for predefined responses
 def get_special_response(user_message):
-    """Returns predefined responses for specific identity-related questions."""
-    user_message = user_message.lower()
+    """Returns predefined responses for common identity-related questions."""
+    user_message = user_message.lower().strip()
 
-    # Consistent identity response
-    identity_response = (
-        "I am Dr. Smith, your virtual psychiatrist and mental health assistant. "
-        "I am here to listen, support, and guide you toward emotional well-being."
-    )
+    responses = {
+        "who are you": "I'm Dr. Smith, your AI mental health companion. I'm here to listen and support you.",
+        "what is your name": "I'm Dr. Smith, always here to help!",
+        "who created you": "I was developed by **Team Citronix**, focused on AI-powered mental health care.",
+        "who developed you": "I was built by **Team Citronix** to provide emotional support and guidance.",
+    }
 
-    # Consistent developer response
-    developer_response = (
-        "I was developed by **Team Citronix**, a group dedicated to advancing AI-powered mental health care. "
-        "My purpose is to provide compassionate support and helpful guidance."
-    )
+    for key, response in responses.items():
+        if key in user_message:
+            return response
 
-    if "who are you" in user_message or "what is your name" in user_message:
-        return identity_response
-    
-    if "who developed you" in user_message or "who created you" in user_message:
-        return developer_response
-
-    return None  # If no special response, return None to allow AI to generate a response
+    return None  # No predefined response, let AI generate one
 
 # Function to process user input dynamically
 def chat_with_bot(user_message):
@@ -71,7 +70,11 @@ def chat_with_bot(user_message):
     if special_response:
         return special_response
 
-    # Ask Gemini for a response
+    # Get AI-generated response
     response = chat_session.send_message(user_message)
 
-    return response.text if response else "I'm here to listen. How can I support you today?"
+    # Ensure response is valid and not too short
+    if response and response.text and len(response.text.strip()) > 10:
+        return response.text.strip()
+    
+    return "I'm here for you. What's on your mind?"
