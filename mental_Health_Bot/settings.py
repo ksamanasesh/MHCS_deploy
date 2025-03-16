@@ -133,10 +133,12 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTO_LOGOUT = {
-    'IDLE_TIME':10,
-    'REDIRECT_TO_LOGIN_IMMEDIATELY':True,
-    'session_Expired':"Your Session as expired, Please signin again to continue"
-}
-
+# Session Management
+SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Store sessions in the database
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Expire when the browser closes
+SESSION_COOKIE_AGE = 86400  # Optional: 30-minute session timeout
+SESSION_COOKIE_SECURE = False  # Ensures HTTPS only
+SESSION_COOKIE_HTTPONLY = True  # Prevents JS access to session cookies
+CSRF_COOKIE_SECURE = False
+SESSION_SAVE_EVERY_REQUEST = True
 LOGIN_URL = '/signIn'

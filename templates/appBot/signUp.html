@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../static/appBot/css/bot.jpg" type="image/jpg">
     <title>Create Your Own Profile</title>
     <link rel="stylesheet" href="/static/appBot/css/signUp.css">
 </head>
 <body>
     <div class="form-container">
-        <form class="profile-form" action="" method="POST">
+        <form class="profile-form" method="post">
             {% csrf_token %}
+
             <h2>Create Your Own Profile</h2>
-            
+
+            {% if min_words %}
+                <p style="color: red;">{{ min_words }}</p>
+            {% endif %}
+            {% if noMatch %}
+                <p style="color: red;">{{ noMatch }}</p>
+            {% endif %}
+
             <div class="form-group">
                 <label for="firstname">First Name</label>
                 <input type="text" id="firstname" name="fname" placeholder="Enter your first name" required>
@@ -45,7 +52,10 @@
 
             <button type="submit" class="submit-btn">Create Profile</button>
         </form>
-        <a href="signIn"><button class="already-btn">Already Signned Up ?</button></a>
+        
+        <a href="signIn">
+            <button class="already-btn">Already Signed Up?</button>
+        </a>
     </div>
 </body>
 </html>
