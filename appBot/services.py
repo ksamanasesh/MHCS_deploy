@@ -12,7 +12,7 @@ generation_config = {
     "temperature": 0.6,  # Reduce randomness for more direct responses
     "top_p": 0.8,
     "top_k": 30,
-    "max_output_tokens": 180,  # Shorten responses
+    "max_output_tokens": 150,  # Shorten responses
     "response_mime_type": "text/plain",
 }
 
