@@ -2,63 +2,64 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
-# Securely load API key
-api_key = os.getenv("GEMINI_API_KEY")  # Ensure key is named correctly in .env
-if not api_key:
-    raise ValueError("API key not found. Make sure it is set in the .env file.")
+# Load API key securely
+genai.configure(api_key=os.getenv("api_key"))  # Store in .env file for security
 
-# Configure the Gemini API
-genai.configure(api_key=api_key)
-
-# Generation configuration for shorter, chat-like responses
+# Generation configuration
 generation_config = {
-    "temperature": 0.6,  # Keeps responses stable but still natural
+    "temperature": 0.6,  # Reduce randomness for more direct responses
     "top_p": 0.8,
     "top_k": 30,
-    "max_output_tokens": 50,  # Limits response length
+    "max_output_tokens": 50,  # Shorten responses
     "response_mime_type": "text/plain",
 }
 
-# Initialize the Gemini model for Dr. Smith (now more casual)
+# Initialize the Gemini model for Dr. Smith, the mental health care chatbot
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
 
-# Start chat session with a friendly, non-formal introduction
+# Start chat session with a meaningful conversation history
 chat_session = model.start_chat(
     history=[
         {
             "role": "user",
-            "parts": ["You are Dr. Smith, a friendly and supportive chatbot. Keep responses short and engaging."],
+            "parts": ["You are Dr. Smith, a mental health care chatbot. Respond with empathy and guidance."],
         },
         {
             "role": "model",
-            "parts": ["Hey! I'm Dr. Smith, here to chat. What's on your mind?"],
+            "parts": ["Hello, I am Dr. Smith, your virtual mental health assistant. How are you feeling today?"],
         },
     ]
 )
 
-# Function to check for predefined responses
+# Function to check for predefined responses based on user message
 def get_special_response(user_message):
-    """Returns predefined responses for identity-related questions."""
-    user_message = user_message.lower().strip()
+    """Returns predefined responses for specific identity-related questions."""
+    user_message = user_message.lower()
 
-    responses = {
-        "who are you": "I'm Dr. Smith, your virtual friend here to chat and support you.",
-        "what is your name": "I'm Dr. Smith, always here to listen.",
-        "who created you": "I was developed by **Team Citronix**, passionate about AI mental health support.",
-        "who developed you": "Team Citronix built me to help people feel heard and supported."
-    }
+    # Consistent identity response
+    identity_response = (
+        "I am Dr. Smith, your virtual psychiatrist and mental health assistant. "
+        "I am here to listen, support, and guide you toward emotional well-being."
+    )
 
-    for key, response in responses.items():
-        if key in user_message:
-            return response
+    # Consistent developer response
+    developer_response = (
+        "I was developed by **Team Citronix**, a group dedicated to advancing AI-powered mental health care. "
+        "My purpose is to provide compassionate support and helpful guidance."
+    )
 
-    return None  # Return None if no predefined response is needed
+    if "who are you" in user_message or "what is your name" in user_message:
+        return identity_response
+    
+    if "who developed you" in user_message or "who created you" in user_message:
+        return developer_response
+
+    return None  # If no special response, return None to allow AI to generate a response
 
 # Function to process user input dynamically
 def chat_with_bot(user_message):
@@ -70,11 +71,7 @@ def chat_with_bot(user_message):
     if special_response:
         return special_response
 
-    # Get response from Gemini API
+    # Ask Gemini for a response
     response = chat_session.send_message(user_message)
 
-    # Ensure response is valid
-    if response and response.text:
-        return response.text.strip().split(".")[0] + "."  # Keep only the first sentence for brevity
-    
-    return "I'm here for you. What's up?"
+    return response.text if response else "I'm here to listen. How can I support you today?"
