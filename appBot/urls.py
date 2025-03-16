@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -29,3 +31,4 @@ urlpatterns = [
     path('chatbot/chat/', views.chat_view, name='g'),
     path('chat/', views.chat_page, name='chat'), 
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
