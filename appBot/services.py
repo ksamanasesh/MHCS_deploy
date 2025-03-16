@@ -9,10 +9,10 @@ genai.configure(api_key=os.getenv("api_key"))  # Store in .env file for security
 
 # Generation configuration
 generation_config = {
-    "temperature": 0.7,  # Balanced randomness
-    "top_p": 0.9,
-    "top_k": 50,
-    "max_output_tokens": 150,  # Allow longer responses for deeper conversations
+    "temperature": 0.6,  # Reduce randomness for more direct responses
+    "top_p": 0.8,
+    "top_k": 30,
+    "max_output_tokens": 50,  # Shorten responses
     "response_mime_type": "text/plain",
 }
 
