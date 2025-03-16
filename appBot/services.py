@@ -12,7 +12,7 @@ generation_config = {
     "temperature": 0.7,  # Balanced randomness
     "top_p": 0.9,
     "top_k": 50,
-    "max_output_tokens": 200,  # Allow longer responses for deeper conversations
+    "max_output_tokens": 150,  # Allow longer responses for deeper conversations
     "response_mime_type": "text/plain",
 }
 
