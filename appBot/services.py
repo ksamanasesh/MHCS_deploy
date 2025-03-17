@@ -5,14 +5,14 @@ import os
 load_dotenv()
 
 # Load API key securely
-genai.configure(api_key=os.getenv("api_key"))  # Store in .env file for security
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))  # Store in .env file for security
 
 # Generation configuration
 generation_config = {
-    "temperature": 0.6,  # Reduce randomness for more direct responses
-    "top_p": 0.8,
-    "top_k": 30,
-    "max_output_tokens": 150,  # Shorten responses
+    "temperature": 0.7,  # Balanced randomness
+    "top_p": 0.9,
+    "top_k": 50,
+    "max_output_tokens": 200,  # Allow longer responses for deeper conversations
     "response_mime_type": "text/plain",
 }
 
