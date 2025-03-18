@@ -14,20 +14,14 @@ from .services import chat_session, get_special_response
 from collections import Counter
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
+import os 
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Set a writable directory for NLTK data
-NLTK_DIR = "/tmp/nltk_data"  # Cloud environments usually allow writing to /tmp
-os.makedirs(NLTK_DIR, exist_ok=True)
+# Point NLTK to local `nltk_data` directory
+NLTK_DIR = os.path.join(os.path.dirname(__file__), "nltk_data")
 nltk.data.path.append(NLTK_DIR)
-
-# Download required NLTK resources if not available
-try:
-    nltk.data.find("sentiment/vader_lexicon.zip")
-except LookupError:
-    nltk.download("vader_lexicon", download_dir=NLTK_DIR)
 
 # Initialize Sentiment Analyzer
 sia = SentimentIntensityAnalyzer()
