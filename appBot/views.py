@@ -14,11 +14,14 @@ from .services import chat_session, get_special_response
 from collections import Counter
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
+import os 
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
 # Download required NLTK resources
+nltk.data.path.append(os.path.join(os.path.dirname(__file__), "nltk_data"))
+
 sia = SentimentIntensityAnalyzer()
 
 # BASIC ROUTES
