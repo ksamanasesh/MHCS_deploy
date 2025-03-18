@@ -19,7 +19,7 @@ import os
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Point NLTK to local `nltk_data` directory
+# Set NLTK data path to local folder
 NLTK_DIR = os.path.join(os.path.dirname(__file__), "nltk_data")
 nltk.data.path.append(NLTK_DIR)
 
