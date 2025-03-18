@@ -5,7 +5,7 @@ import os
 load_dotenv()
 
 # Load API key securely
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))  # Store in .env file for security
+genai.configure(api_key=os.getenv("api_key"))  # Store in .env file for security
 
 # Generation configuration
 generation_config = {
