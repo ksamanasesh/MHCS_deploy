@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 # Download required NLTK resources
 nltk.data.path.append(os.path.join(os.path.dirname(__file__), "../nltk_data"))
+nltk.download('vader_lexicon', download_dir=nltk.data.path[0])
 
 sia = SentimentIntensityAnalyzer()
 
