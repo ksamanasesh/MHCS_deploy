@@ -18,8 +18,18 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Download required NLTK resources
-nltk.download('vader_lexicon')
+# Set a writable directory for NLTK data
+NLTK_DIR = "/tmp/nltk_data"  # Cloud environments usually allow writing to /tmp
+os.makedirs(NLTK_DIR, exist_ok=True)
+nltk.data.path.append(NLTK_DIR)
+
+# Download required NLTK resources if not available
+try:
+    nltk.data.find("sentiment/vader_lexicon.zip")
+except LookupError:
+    nltk.download("vader_lexicon", download_dir=NLTK_DIR)
+
+# Initialize Sentiment Analyzer
 sia = SentimentIntensityAnalyzer()
 
 # BASIC ROUTES
