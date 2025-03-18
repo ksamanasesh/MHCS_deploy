@@ -19,7 +19,6 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 logger = logging.getLogger(__name__)
 
 # Download required NLTK resources
-
 sia = SentimentIntensityAnalyzer()
 
 # BASIC ROUTES
