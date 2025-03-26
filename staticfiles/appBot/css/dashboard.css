@@ -1,0 +1,87 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #4b0082, #5c2f9b);
+    /* background-image: url('chatbotbg.jpg'); Adjust path as needed */
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    padding-top: 80px; /* To accommodate fixed navbar */
+}
+
+/* Dashboard Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Header */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Row Layout for Graphs */
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds spacing between elements */
+    margin-top: 20px;
+}
+
+/* Column Layout */
+.col-md-6 {
+    flex: 0 0 calc(50% - 10px); /* Ensures two charts in a row */
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.col-md-6:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Chart Canvas */
+canvas {
+    width: 100% !important;
+    height: 300px !important;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 10px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .col-md-6 {
+        width: 100%; /* Full width for better alignment */
+    }
+}
