@@ -20,7 +20,7 @@ import os
 logger = logging.getLogger(__name__)
 
 # Download required NLTK resources
-nltk.data.path.append(os.path.join(os.path.dirname(__file__), "../nltk_data"))
+# nltk.data.path.append(os.path.join(os.path.dirname(__file__), "../nltk_data"))
 
 
 sia = SentimentIntensityAnalyzer()
